@@ -31,5 +31,7 @@ tasks.register('archiveReports', Zip) {
 }
 
 tasks.register('cleanReports', Delete) {
-    delete layout.buildDirectory.dir("reports")
+    delete fileTree("build/reports").matching {
+        include "reports*.zip"
+    }
 }
