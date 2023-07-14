@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'org.example.Main'
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('archiveReports', Zip) {
+    dependsOn test
+    def timestamp = new Date().format('ddMMyyyy-HHmmss')
+    archiveFileName = "reports_${timestamp}.zip"
+    destinationDirectory = layout.buildDirectory.dir("reports")
+    from layout.buildDirectory.dir("reports")
+}
+
+tasks.register('cleanReports', Delete) {
+    delete layout.buildDirectory.dir("reports")
+}
